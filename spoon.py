@@ -7,6 +7,7 @@ home_path = os.path.expanduser("~")
 apk_output_folder = home_path + "/KKBOX/kkbox_android/KKBOX/build/outputs/apk"
 spoon_folder = home_path + "/Desktop/important/spoon"
 output_folder = spoon_folder + "/output"
+open_report_cmd = "open " + output_folder + "/result1/result.html"
 
 
 def execute_test(parameters=None):
@@ -20,6 +21,13 @@ def execute_test(parameters=None):
     run_test(freq, spoon_cmd)
 
     generate_report()
+
+    open_report(parameter_dict)
+
+
+def open_report(parameter):
+    if parameter.get("notify").lower() == "true":
+        os.system(open_report_cmd)
 
 
 def delete_result_folder():
@@ -55,7 +63,7 @@ def get_parameter(parameters):
     :param parameters: Arguments in list type
     :return: Dictionary have arguments
     """
-    parameter_dict = {'freq': 1}
+    parameter_dict = {'freq': 1, 'notify': False}
 
     if parameters:
         for parameter in parameters:
