@@ -12,14 +12,11 @@ output_folder = spoon_folder + "/output"
 def execute_test(parameters=None):
 
     parameter_dict = get_parameter(parameters)
-
-    class_name = 'class' in parameter_dict
-    freq = int(parameter_dict.get('freq'))
-
-    spoon_cmd = get_spoon_cmd(class_name, parameter_dict)
+    spoon_cmd = get_spoon_cmd(parameter_dict)
 
     delete_result_folder()
 
+    freq = int(parameter_dict.get('freq'))
     run_test(freq, spoon_cmd)
 
     generate_report()
@@ -77,10 +74,9 @@ def run_test(_freq, cmd):
         os.system(cmd.replace("result", "result" + str(count + 1)))
 
 
-def get_spoon_cmd(class_name, parameter_dict):
+def get_spoon_cmd(parameter_dict):
     """
     According to the input parameters to adjust the content of command.
-    :param class_name: True if has the class parameter
     :param parameter_dict: The dictionary of parameter
     :return: Command in str format
     """
@@ -93,7 +89,7 @@ def get_spoon_cmd(class_name, parameter_dict):
              --apk {2}/KKBOX-play-debug.apk \
              --test-apk {2}/KKBOX-play-debug-androidTest.apk".format(spoon_folder, output_folder, apk_output_folder)
 
-    if class_name:
+    if 'class' in parameter_dict:
         class_name_parameter += parameter_dict.get('class')
         spoon_cmd += class_name_parameter
 
